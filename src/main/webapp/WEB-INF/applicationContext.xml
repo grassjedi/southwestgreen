@@ -3,14 +3,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- Persistence -->
+
     <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"></bean>
-
     <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore"></bean>
-
     <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository"></bean>
     <bean name="customerRepository" class="southwestgreen.CustomerRepository"></bean>
     <bean name="userRepository" class="southwestgreen.UserRepository"></bean>
+
+    <!-- Controllers -->
+
     <bean class="southwestgreen.IndexController"></bean>
+
+    <!-- ThymeLeaf -->
 
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
