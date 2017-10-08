@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"></bean>
+
+    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore"></bean>
+
+    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository"></bean>
+    <bean name="customerRepository" class="southwestgreen.CustomerRepository"></bean>
+    <bean name="userRepository" class="southwestgreen.UserRepository"></bean>
+    <bean class="southwestgreen.IndexController"></bean>
+
+    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+    </bean>
+
+</beans>

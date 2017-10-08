@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-@Service
 public class CustomerContactRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerContactRepository.class);
 
-    @Autowired
     private Datastore datastore;
 
     private KeyFactory keyFactory;

@@ -13,7 +13,6 @@ public class CustomerRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerRepository.class);
 
-    @Autowired
     private Datastore datastore;
 
     private KeyFactory keyFactory;
