@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Persistence -->
 
-    <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"></bean>
-    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore"></bean>
-    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository"></bean>
-    <bean name="customerRepository" class="southwestgreen.CustomerRepository"></bean>
-    <bean name="userRepository" class="southwestgreen.UserRepository"></bean>
+    <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"/>
+    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore"/>
+    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository"/>
+    <bean name="customerRepository" class="southwestgreen.CustomerRepository"/>
+    <bean name="userRepository" class="southwestgreen.UserRepository"/>
+
+    <!-- Security -->
+    <bean id="roleVoter"
+                class="org.springframework.security.access.vote.RoleVoter">
+        <property name="rolePrefix" value=""/>
+    </bean>
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <constructor-arg name="decisionVoters" ref="roleVoter"/>
+    </bean>
+
+    <sec:authentication-manager id="dao-auth">
+        <sec:authentication-provider user-service-ref="userRepository"/>
+    </sec:authentication-manager>
+
+    <sec:http authentication-manager-ref="dao-auth" access-decision-manager-ref="accessDecisionManager">
+        <sec:intercept-url pattern="/emp/**" access="Admin"/>
+        <sec:form-login login-page="/login"
+                        authentication-failure-url="/denied"
+                        username-parameter="username"
+                        password-parameter="password"
+                        default-target-url="/home"/>
+        <sec:logout invalidate-session="true"
+                    logout-success-url="/"
+                    logout-url="/logout"/>
+        <sec:access-denied-handler error-page="/denied"/>
+        <sec:session-management invalid-session-url="/login">
+            <sec:concurrency-control max-sessions="1" expired-url="/login"/>
+        </sec:session-management>
+    </sec:http>
 
     <!-- Controllers -->
 
-    <bean class="southwestgreen.IndexController"></bean>
+    <bean class="southwestgreen.IndexController"/>
 
     <!-- ThymeLeaf -->
 
