@@ -16,7 +16,6 @@ public class UserRepository implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(UserRepository.class);
 
-    @Autowired
     private Datastore datastore;
 
     private KeyFactory keyFactory;
@@ -30,7 +29,7 @@ public class UserRepository implements UserDetailsService {
             createAdminUser("professor.bokdrol@gmail.com", "$2a$06$aS0VjZ8IT0F6gOSsb7.Z2u/4mHcRvLGSG7vlB4jDQW0DBCm7UjU9i");
         }
         catch(XDuplicateRecord ignore) {
-
+            log.info("Admin user already exists");
         }
     }
 
@@ -112,5 +111,13 @@ public class UserRepository implements UserDetailsService {
                 .set("email", user.getEmail())
                 .set("admin", user.isAdmin())
                 .build();
+    }
+
+    public Datastore getDatastore() {
+        return datastore;
+    }
+
+    public void setDatastore(Datastore datastore) {
+        this.datastore = datastore;
     }
 }

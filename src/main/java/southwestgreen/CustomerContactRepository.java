@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
+@Service
 public class CustomerContactRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerContactRepository.class);
@@ -69,5 +70,13 @@ public class CustomerContactRepository {
                 .set("province", customerContact.getProvince())
                 .set("postalCode", customerContact.getPostalCode())
                 .build();
+    }
+
+    public Datastore getDatastore() {
+        return datastore;
+    }
+
+    public void setDatastore(Datastore datastore) {
+        this.datastore = datastore;
     }
 }

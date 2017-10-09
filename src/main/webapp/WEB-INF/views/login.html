@@ -31,7 +31,7 @@
         <div class="col-sm-4">&nbsp;</div>
         <div class="col-sm-4">
             <h1>Login</h1>
-            <form action="/j_spring_security_check" method="post">
+            <form th:action="@{/j_spring_security_check}" action="/j_spring_security_check" method="post">
                 <input id="username" name="username" type="text" placeholder="Username" title="Username"/>
                 <input id="password" name="password" type="password" placeholder="Password" title="Password"/>
                 <input type="submit" value="login" title="Login" />

@@ -39,11 +39,19 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<>();
-        auth.add(
-                (GrantedAuthority) () -> "USER");
+        auth.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "USER";
+            }
+        });
         if(admin) {
-            auth.add(
-                    (GrantedAuthority) () -> "ADMIN");
+            auth.add(new GrantedAuthority() {
+                @Override
+                public String getAuthority() {
+                    return "ADMIN";
+                }
+            });
         }
         return auth;
     }

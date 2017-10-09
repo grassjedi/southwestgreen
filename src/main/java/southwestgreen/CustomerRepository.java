@@ -3,7 +3,6 @@ package southwestgreen;
 import com.google.cloud.datastore.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -63,5 +62,13 @@ public class CustomerRepository {
                 .set("province", customer.getProvince())
                 .set("postalCode", customer.getPostalCode())
                 .build();
+    }
+
+    public Datastore getDatastore() {
+        return datastore;
+    }
+
+    public void setDatastore(Datastore datastore) {
+        this.datastore = datastore;
     }
 }

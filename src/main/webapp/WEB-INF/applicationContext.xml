@@ -2,15 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:sec="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
     <!-- Persistence -->
 
     <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"/>
-    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore"/>
-    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository"/>
-    <bean name="customerRepository" class="southwestgreen.CustomerRepository"/>
-    <bean name="userRepository" class="southwestgreen.UserRepository"/>
+    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore" />
+    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository" autowire="byName" init-method="init" autowire-candidate="true" />
+    <bean name="customerRepository" class="southwestgreen.CustomerRepository" init-method="init" autowire="byName" autowire-candidate="true"/>
+    <bean name="userRepository" class="southwestgreen.UserRepository" init-method="init" autowire="byName" autowire-candidate="true" />
 
     <!-- Security -->
     <bean id="roleVoter"
@@ -27,8 +27,9 @@
     </sec:authentication-manager>
 
     <sec:http authentication-manager-ref="dao-auth" access-decision-manager-ref="accessDecisionManager">
-        <sec:intercept-url pattern="/emp/**" access="Admin"/>
+        <!--<sec:intercept-url pattern="/emp/**" />-->
         <sec:form-login login-page="/login"
+                        login-processing-url="/j_spring_security_check"
                         authentication-failure-url="/denied"
                         username-parameter="username"
                         password-parameter="password"
