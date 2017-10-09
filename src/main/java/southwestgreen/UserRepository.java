@@ -22,6 +22,7 @@ public class UserRepository implements UserDetailsService {
 
     @PostConstruct
     public void init() {
+        log.info(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
         log.info("Initializing User key factories");
         keyFactory = datastore.newKeyFactory().kind("User");
         try {
@@ -46,8 +47,7 @@ public class UserRepository implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Query<Entity> query = Query.entityQueryBuilder()
                 .kind("User")
-                .filter(StructuredQuery.PropertyFilter.eq("id", email)).build();
-        datastore.run(query);
+                .filter(StructuredQuery.PropertyFilter.eq("email", email)).build();
         QueryResults<Entity> results = datastore.run(query);
         if(!results.hasNext()) {
             throw new UsernameNotFoundException("user not found");
@@ -110,6 +110,7 @@ public class UserRepository implements UserDetailsService {
         return Entity.builder(key)
                 .set("email", user.getEmail())
                 .set("admin", user.isAdmin())
+                .set("password", user.getPassword())
                 .build();
     }
 

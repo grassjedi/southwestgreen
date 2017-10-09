@@ -13,8 +13,8 @@
     <bean name="userRepository" class="southwestgreen.UserRepository" init-method="init" autowire="byName" autowire-candidate="true" />
 
     <!-- Security -->
-    <bean id="roleVoter"
-                class="org.springframework.security.access.vote.RoleVoter">
+    <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
         <property name="rolePrefix" value=""/>
     </bean>
 
@@ -23,7 +23,9 @@
     </bean>
 
     <sec:authentication-manager id="dao-auth">
-        <sec:authentication-provider user-service-ref="userRepository"/>
+        <sec:authentication-provider user-service-ref="userRepository">
+            <sec:password-encoder ref="passwordEncoder" />
+        </sec:authentication-provider>
     </sec:authentication-manager>
 
     <sec:http authentication-manager-ref="dao-auth" access-decision-manager-ref="accessDecisionManager">
