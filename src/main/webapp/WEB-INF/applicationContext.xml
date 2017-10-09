@@ -29,7 +29,8 @@
     </sec:authentication-manager>
 
     <sec:http authentication-manager-ref="dao-auth" access-decision-manager-ref="accessDecisionManager">
-        <!--<sec:intercept-url pattern="/emp/**" />-->
+        <sec:intercept-url pattern="/app/**" />
+        <sec:intercept-url pattern="/home" />
         <sec:form-login login-page="/login"
                         login-processing-url="/j_spring_security_check"
                         authentication-failure-url="/denied"
