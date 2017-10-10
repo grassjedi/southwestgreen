@@ -42,14 +42,14 @@ public class User implements UserDetails {
         auth.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return "USER";
+                return "AUTH_USER";
             }
         });
         if(admin) {
             auth.add(new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return "ADMIN";
+                    return "ADMIN_USER";
                 }
             });
         }

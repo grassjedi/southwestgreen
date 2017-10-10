@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:sec="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- Persistence -->
 
@@ -14,10 +15,7 @@
 
     <!-- Security -->
     <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
-        <property name="rolePrefix" value=""/>
-    </bean>
-
+    <bean id="roleVoter" class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
         <constructor-arg name="decisionVoters" ref="roleVoter"/>
     </bean>
@@ -29,7 +27,8 @@
     </sec:authentication-manager>
 
     <sec:http authentication-manager-ref="dao-auth" access-decision-manager-ref="accessDecisionManager">
-        <sec:intercept-url pattern="/app/**" />
+        <sec:intercept-url pattern="/app/**" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/admin/**" access="hasRole('AUTH_ADMIN')"/>
         <sec:intercept-url pattern="/home" />
         <sec:form-login login-page="/login"
                         login-processing-url="/j_spring_security_check"
