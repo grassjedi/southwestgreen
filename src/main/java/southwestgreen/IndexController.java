@@ -10,20 +10,9 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Map<String, Object> model) {
-        model.put("message", "damnit");
-        return "index";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = {"/index*", "/"}, method = RequestMethod.GET)
     public String login() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(){
-        return "logout";
+        return "index";
     }
 
     @RequestMapping(value = "/denied", method = RequestMethod.GET)
@@ -31,9 +20,4 @@ public class IndexController {
         return "denied";
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(Map<String, Object> model, Principal principal){
-        model.put("email", principal.getName());
-        return "home";
-    }
 }

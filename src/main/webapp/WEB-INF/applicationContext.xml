@@ -35,12 +35,12 @@
                         authentication-failure-url="/denied"
                         username-parameter="username"
                         password-parameter="password"
-                        default-target-url="/home"/>
+                        default-target-url="/app/home"/>
         <sec:logout invalidate-session="true"
                     logout-success-url="/"
-                    logout-url="/logout"/>
+                    logout-url="/index"/>
         <sec:access-denied-handler error-page="/denied"/>
-        <sec:session-management invalid-session-url="/login">
+        <sec:session-management invalid-session-url="/index">
             <sec:concurrency-control max-sessions="1" expired-url="/login"/>
         </sec:session-management>
     </sec:http>
@@ -52,17 +52,30 @@
     <!-- ThymeLeaf -->
 
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <constructor-arg ref="servletContext" />
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".html"/>
         <property name="templateMode" value="HTML5"/>
     </bean>
 
+    <bean name="layoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
+    <bean name="securityDialect" class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect" />
+    <bean name="standardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
+
+    <util:set id="templateEngineDialects">
+        <ref bean="layoutDialect" />
+        <ref bean="securityDialect" />
+        <ref bean="standardDialect" />
+    </util:set>
+
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
+        <property name="dialects" ref="templateEngineDialects"/>
     </bean>
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
+
 
 </beans>
