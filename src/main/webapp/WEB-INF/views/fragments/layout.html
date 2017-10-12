@@ -12,11 +12,12 @@
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Spring Boot</a>
+                    <a class="navbar-brand" href="#">Southwest Green</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li th:class="${'' == viewName ? 'active' : ''} ${'' == viewName ? 'hidden-menu-item' : ''}"><a href="/app/home">Home</a></li>
+                        <li><a href="/app/customer">Customers</a></li>
                         <li><a href="#about">About</a></li>
                     </ul>
                 </div>

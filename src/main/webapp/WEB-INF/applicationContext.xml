@@ -7,11 +7,9 @@
 
     <!-- Persistence -->
 
-    <bean name="gaeDataStoreManager" class="southwestgreen.GaeDataStoreManager"/>
-    <bean name="datastore" factory-bean="gaeDataStoreManager" factory-method="getDatastore" />
-    <bean name="customerContactRepository" class="southwestgreen.CustomerContactRepository" autowire="byName" init-method="init" autowire-candidate="true" />
-    <bean name="customerRepository" class="southwestgreen.CustomerRepository" init-method="init" autowire="byName" autowire-candidate="true"/>
-    <bean name="userRepository" class="southwestgreen.UserRepository" init-method="init" autowire="byName" autowire-candidate="true" />
+    <bean name="customerContactRepository" class="southwestgreen.repository.CompanyContactRepository" autowire="byName" autowire-candidate="true" />
+    <bean name="customerRepository" class="southwestgreen.repository.CompanyRepository" autowire="byName" autowire-candidate="true"/>
+    <bean name="userRepository" class="southwestgreen.repository.UserRepository" init-method="init" autowire="byName" autowire-candidate="true" />
 
     <!-- Security -->
     <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
@@ -47,7 +45,9 @@
 
     <!-- Controllers -->
 
-    <bean class="southwestgreen.IndexController"/>
+    <bean class="southwestgreen.controller.IndexController"/>
+    <bean class="southwestgreen.controller.AppHomeController"/>
+    <bean class="southwestgreen.controller.MaintenanceController"/>
 
     <!-- ThymeLeaf -->
 

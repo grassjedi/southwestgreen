@@ -1,5 +1,7 @@
-package southwestgreen;
+package southwestgreen.entity;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,33 +9,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 public class User implements UserDetails {
-    private String email;
-    private String password;
-    private boolean admin = false;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @Id public String email;
+    public String password;
+    public Boolean admin = Boolean.FALSE;
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
     }
 
     @Override

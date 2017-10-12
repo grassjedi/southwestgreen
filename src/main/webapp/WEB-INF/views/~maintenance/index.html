@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragments/layout.html">
+<head>
+    <title th:text="'Home of ' + ${userName}">Home - </title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="row starter-template">
+            <div class="col-sm-4">&nbsp;</div>
+            <div class="col-sm-4">
+                <form action="/~maintenance/bulk-add-companies" method="post">
+                    <h1>Import companies:</h1>
+                    <input type="file" name="data-file" placeholder="Companies CSV"/>
+                    <input type="submit" value="Import" />
+                </form>
+            </div>
+            <div class="col-sm-4">&nbsp;</div>
+        </div>
+        <div class="row starter-template">
+            <div class="col-sm-4">&nbsp;</div>
+            <div class="col-sm-4">
+                <form action="/~maintenance/bulk-add-contacts" method="post">
+                    <h1>Import companies:</h1>
+                    <input type="file" name="data-file" placeholder="Contacts CSV"/>
+                    <input type="submit" value="Import" />
+                </form>
+            </div>
+            <div class="col-sm-4">&nbsp;</div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

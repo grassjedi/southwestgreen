@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragments/layout.html">
+<head>
+    <title>Customers</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="row starter-template">
+            <div class="col-sm-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Name</th>
+                            <th>Telephone</th>
+                            <th>Fax</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="customer: ${customers}" class="customer-row">
+                            <td>
+                                <a th:href="${customer.getWebsite() == null ? '#' : customer.getWebsite()}" href="#">
+                                    <span class="glyphicon glyphicon-link"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a th:text="${customer.getCustomerName()}" th:href="'/customer/' + ${customer.getId()}">
+                                    Customer Name
+                                </a>
+                            </td>
+                            <td th:text="${customer.getTelephone()}">
+                                021-555-2435
+                            </td>
+                            <td>
+                                <a th:text="${customer.getCustomerName()}" th:href="'mailto:' + ${customer.getEmail()}">
+                                    Customer Email
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <h1>User Home</h1>
+                <h2>
+                    <span th:text="'Hello: ' + ${email}"></span>
+                </h2>
+            </div>
+            <div class="col-sm-4">&nbsp;</div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
