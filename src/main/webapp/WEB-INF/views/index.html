@@ -13,9 +13,9 @@
                 <div class="col-sm-4">
                     <h1>Login</h1>
                     <form th:action="@{/j_spring_security_check}" action="/j_spring_security_check" method="post">
-                        <div><input id="username" name="username" type="text" placeholder="Username" title="Username"/></div>
-                        <div><input id="password" name="password" type="password" placeholder="Password" title="Password"/></div>
-                        <div><input type="submit" value="login" title="Login" /></div>
+                        <div><input id="username" class="form-control" name="username" type="email" placeholder="Username" title="Username"/></div>
+                        <div><input id="password" class="form-control" name="password" type="password" placeholder="Password" title="Password"/></div>
+                        <div><input type="submit" class="form-control" value="Login" title="Login" /></div>
                     </form>
                 </div>
                 <div class="col-sm-4">&nbsp;</div>

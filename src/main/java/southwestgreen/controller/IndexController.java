@@ -10,7 +10,7 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
-    @RequestMapping(value = {"/index*", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index*", "/", "/login*"}, method = RequestMethod.GET)
     public String login() {
         return "index";
     }
