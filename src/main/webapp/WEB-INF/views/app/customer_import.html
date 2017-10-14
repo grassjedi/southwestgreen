@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragments/layout.html">
+<head>
+    <title>Customers</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>
+    <script type="application/javascript">
+        function loadCsv() {
+            $('#company-csv-file').parse({
+                header: true,
+                skipEmptyLines: true,
+                config: {
+                    complete: function (result) {
+                        var data = result.data;
+                        var fields = result.meta.fields;
+                        if (fields && fields.length) {
+                            for (var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+                                var field = fields[fieldIndex];
+                                $('#contact-headers').append(
+                                        "<tr>" +
+                                        "<th>" +
+                                        field +
+                                        "</th>" +
+                                        "</tr>"
+                                );
+                            }
+                        }
+                        if (data && data.length) {
+                            for (var recordIndex = 0; recordIndex < data.length; recordIndex++) {
+                                var datum = data[recordIndex];
+                                var elementText = "";
+                                for (var fieldInd = 0; fieldInd < fields.length; fieldInd++) {
+                                    var fieldName = fields[fieldInd];
+                                    elementText =
+                                            "<tr class=\"company-row\">" +
+                                            "<td>" +
+                                            datum[fieldName] +
+                                            "</td>" +
+                                            "</tr>";
+                                }
+                                $('#company-table').append(elementText);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="row starter-template">
+            <div class="col-sm-12">
+                <div class="js-load-form">
+                    <label class="label" for="company-csv-file"></label><input class="form-control" id="company-csv-file" type="file" name="" />
+                    <button class="btn btn-default" value="Load" onclick="loadCsv()">Load</button>
+                </div>
+            </div>
+        </div>
+        <div class="row starter-template">
+            <div class="col-sm-12">
+                <table class="table">
+                    <thead id="company-headers">
+
+                    </thead>
+                    <tbody id="company-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

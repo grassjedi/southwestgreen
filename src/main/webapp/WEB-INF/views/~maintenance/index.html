@@ -11,8 +11,9 @@
         <div class="row starter-template">
             <div class="col-sm-4">&nbsp;</div>
             <div class="col-sm-4">
-                <form action="/~maintenance/bulk-add-companies" method="post">
+                <form action="/~maintenance/bulk-add-companies" method="post" enctype="multipart/form-data">
                     <h1>Import companies:</h1>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <input type="file" name="data-file" placeholder="Companies CSV"/>
                     <input type="submit" value="Import" />
                 </form>
@@ -22,8 +23,9 @@
         <div class="row starter-template">
             <div class="col-sm-4">&nbsp;</div>
             <div class="col-sm-4">
-                <form action="/~maintenance/bulk-add-contacts" method="post">
+                <form action="/~maintenance/bulk-add-contacts" method="post" enctype="multipart/form-data">
                     <h1>Import companies:</h1>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <input type="file" name="data-file" placeholder="Contacts CSV"/>
                     <input type="submit" value="Import" />
                 </form>

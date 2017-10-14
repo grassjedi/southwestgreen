@@ -5,10 +5,13 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!-- Http -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
     <!-- Persistence -->
 
-    <bean name="customerContactRepository" class="southwestgreen.repository.CompanyContactRepository" autowire="byName" autowire-candidate="true" />
-    <bean name="customerRepository" class="southwestgreen.repository.CompanyRepository" autowire="byName" autowire-candidate="true"/>
+    <bean name="companyRepository" class="southwestgreen.repository.CompanyRepository" autowire="byName" autowire-candidate="true"/>
+    <bean name="companyContactRepository" class="southwestgreen.repository.CompanyContactRepository" autowire="byName" autowire-candidate="true" />
     <bean name="userRepository" class="southwestgreen.repository.UserRepository" init-method="init" autowire="byName" autowire-candidate="true" />
 
     <!-- Security -->
@@ -45,8 +48,9 @@
 
     <!-- Controllers -->
 
-    <bean class="southwestgreen.controller.IndexController"/>
-    <bean class="southwestgreen.controller.AppHomeController"/>
+    <bean class="southwestgreen.controller.IndexController" autowire="byName"/>
+    <bean class="southwestgreen.controller.AppHomeController" autowire="byName"/>
+    <bean class="southwestgreen.controller.CompanyController" autowire="byName"/>
     <bean class="southwestgreen.controller.MaintenanceController"/>
 
     <!-- ThymeLeaf -->

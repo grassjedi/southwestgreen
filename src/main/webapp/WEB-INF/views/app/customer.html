@@ -4,13 +4,22 @@
       layout:decorate="fragments/layout.html">
 <head>
     <title>Customers</title>
+
 </head>
 <body>
 <section layout:fragment="content">
     <div class="container">
         <div class="row starter-template">
-            <div class="col-sm-8">
-                <table class="table">
+            <div class="col-sm-12">
+                <a class="btn btn-default" href="/app/customer/app/customer/create">Create Customer</a>
+            </div>
+        </div>
+        <div class="row starter-template">
+            <div class="col-sm-12">
+                <div th:if="${companies == null || companies?.size() == 0}">
+                    <h1>No customers configured.</h1>
+                </div>
+                <table th:if="${companies != null && companies?.size() > 0}" class="table">
                     <thead>
                         <tr>
                             <th>&nbsp;</th>
@@ -21,14 +30,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="customer: ${customers}" class="customer-row">
+                        <tr th:each="company: ${companies}" class="company-row">
                             <td>
-                                <a th:href="${customer.getWebsite() == null ? '#' : customer.getWebsite()}" href="#">
+                                <a th:href="${customer.website == null ? '#' : customer.website}" href="#">
                                     <span class="glyphicon glyphicon-link"></span>
                                 </a>
                             </td>
                             <td>
-                                <a th:text="${customer.getCustomerName()}" th:href="'/customer/' + ${customer.getId()}">
+                                <a th:text="${customer.name}" th:href="'/app/customer/' + ${customer.id}">
                                     Customer Name
                                 </a>
                             </td>
@@ -36,7 +45,7 @@
                                 021-555-2435
                             </td>
                             <td>
-                                <a th:text="${customer.getCustomerName()}" th:href="'mailto:' + ${customer.getEmail()}">
+                                <a th:text="${customer.email}" th:href="'mailto:' + ${customer.getEmail()}">
                                     Customer Email
                                 </a>
                             </td>
@@ -44,13 +53,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-sm-4">
-                <h1>User Home</h1>
-                <h2>
-                    <span th:text="'Hello: ' + ${email}"></span>
-                </h2>
-            </div>
-            <div class="col-sm-4">&nbsp;</div>
         </div>
     </div>
 </section>

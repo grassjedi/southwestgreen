@@ -1,16 +1,20 @@
 package southwestgreen.repository;
 
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.cmd.Query;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import southwestgreen.XEntityValidation;
-import southwestgreen.XImportFailure;
 import southwestgreen.XNoSuchRecord;
 import southwestgreen.XNoUniqueRecord;
 import southwestgreen.entity.Company;
+import southwestgreen.util.CursorResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,11 +69,11 @@ public class CompanyRepository {
             company.website = record.get("website");
             company.telephone = record.get("businessphone");
             company.facsimile = record.get("faxnumber");
-            company.facsimile = record.get("address");
-            company.facsimile = record.get("city");
-            company.facsimile = record.get("province");
-            company.facsimile = record.get("postalcode");
-            company.facsimile = record.get("country");
+            company.address = record.get("address");
+            company.city = record.get("city");
+            company.province = record.get("province");
+            company.postalCode = record.get("postalcode");
+            company.country = record.get("country");
             companies.add(company);
 
         }
@@ -85,5 +89,36 @@ public class CompanyRepository {
 
     static {
         ObjectifyService.register(Company.class);
+    }
+
+    public CursorResult<List<Company>> list(String from, Integer maxResults) {
+        CursorResult<List<Company>> result = new CursorResult<>();
+        Query<Company> query = ofy().load().type(Company.class).limit(maxResults);
+        try {
+            if (from != null) query = query.startAt(Cursor.fromWebSafeString(from));
+        }
+        catch(IllegalArgumentException ignore) {
+            // the cursor was invalid start at 0
+        }
+        QueryResultIterator<Company> i = query.iterator();
+        result.data = new LinkedList<>();
+        boolean moreResults = false;
+        while(i.hasNext()) {
+            result.data.add(i.next());
+            moreResults = true;
+        }
+        if(moreResults) {
+            result.cursor = i.getCursor().toWebSafeString();
+        }
+        return result;
+    }
+
+    public Company getCompanyById(Long companyId)
+    throws XNoSuchRecord {
+        Company result = ofy().load().key(Key.create(Company.class, companyId)).now();
+        if(result == null) {
+            throw new XNoSuchRecord();
+        }
+        return result;
     }
 }
