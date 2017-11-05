@@ -6,8 +6,7 @@ import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Company {
-    @Id public Long id;
-    @Index public String name;
+    @Id @Index public String name;
     public String email;
     public String website;
     public String telephone;

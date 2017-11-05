@@ -32,20 +32,20 @@
                     <tbody>
                         <tr th:each="company: ${companies}" class="company-row">
                             <td>
-                                <a th:href="${customer.website == null ? '#' : customer.website}" href="#">
+                                <a th:href="${company.website == null ? '#' : company.website}" href="#">
                                     <span class="glyphicon glyphicon-link"></span>
                                 </a>
                             </td>
                             <td>
-                                <a th:text="${customer.name}" th:href="'/app/customer/' + ${customer.id}">
+                                <a th:text="${company.name}" th:href="'/app/customer/' + ${company.id}">
                                     Customer Name
                                 </a>
                             </td>
-                            <td th:text="${customer.getTelephone()}">
+                            <td th:text="${company.getTelephone()}">
                                 021-555-2435
                             </td>
                             <td>
-                                <a th:text="${customer.email}" th:href="'mailto:' + ${customer.getEmail()}">
+                                <a th:text="${company.email}" th:href="'mailto:' + ${company.getEmail()}">
                                     Customer Email
                                 </a>
                             </td>

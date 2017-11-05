@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="fragments/layout.html">
 <head>
-    <title th:text="'Home of ' + ${userName}">Home - </title>
+    <title th:text="${contact == null ? 'Add customer' : 'Edit customer'}">Customer</title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -11,22 +11,116 @@
         <div class="row starter-template">
             <div class="col-sm-4">&nbsp;</div>
             <div class="col-sm-4">
-                <h1 th:text="${company == null ? 'Add new customer' : 'Edit customer'}">Operation</h1>
-                <form th:action="${company == null ? '/app/customer/create' : '/app/customer/update'}" action="#" method="post">
-                    <input th:if="${company != null}" type="hidden" name="companyId" th:value="${company?.id}" />
+                <h1 th:text="${contact == null ? 'Add new customer' : 'Edit customer'}">Operation</h1>
+                <form th:action="${contact == null ? '/app/customer/create' : '/app/customer/update'}" action="#" method="post">
+                    <input th:if="${contact != null}" type="hidden" name="companyId" th:value="${contact?.id}" />
                     <div class="company-details">
-                        <label for="name">Company Name</label><input th:value="${company?.name?:''}" id="name" name="name" class="form-control" type="text"/>
-                        <label for="email">Company Email</label><input th:value="${company?.email?:''}" id="email" name="email" class="form-control" type="email"/>
-                        <label for="telephone">Company Telephone</label><input th:value="${company?.telephone?:''}" id="telephone" name="telephone" class="form-control" type="tel"/>
-                        <div>
-                            <label for="website">Website</label><input th:value="${company?.website?:''}" id="website" name="website" class="form-control" type="url"/>
-                            <label for="facsimile">Facsimile</label><input th:value="${company?.facsimile?:''}" id="facsimile" name="facsimile" class="form-control" type="tel"/>
-                            <label for="address">Address</label><input th:value="${company?.address?:''}" id="address" name="address" class="form-control" type="text"/>
-                            <label for="city">City</label><input th:value="${company?.city?:''}" id="city" name="city" class="form-control" type="text"/>
-                            <label for="province">Province</label><input th:value="${company?.province?:''}" id="province" name="province" class="form-control" type="text"/>
-                            <label for="country">Country</label><input th:value="${company?.country?:''}" id="country" name="country" class="form-control" type="text"/>
-                            <label for="postalCode">Postal Code</label><input th:value="${company?.postalCode?:''}" id="postalCode" name="postalCode" class="form-control" type="text"/>
-                            <label for="notes">Notes</label><textarea th:value="${company?.notes?:''}" id="notes" name="notes" placeholder="General notes" class="form-control"></textarea>
+
+                        <input th:if="${contact != null && contact.id != null}"
+                               id="contact.id" name="contact.id" class="form-control" type="hidden"/>
+
+                        <label for="contact.forenames">Name</label>
+                        <input id="contact.forenames"
+                               th:value="${contact?.forenames?:''}"
+                               name="contact.forenames"
+                               class="form-control"
+                               type="text" />
+
+                        <label for="contact.surname">Surname</label>
+                        <input id="contact.surname"
+                               th:value="${contact?.surname?:''}"
+                               name="contact.surname"
+                               class="form-control"
+                               type="text" />
+
+                        <label for="contact.jobTitle">Job Title</label>
+                        <input id="contact.jobTitle"
+                               th:value="${contact?.jobTitle?:''}"
+                               name="contact.jobTitle"
+                               class="form-control"
+                               type="text"/>
+
+                        <label for="contact.company">Company</label>
+                        <input id="contact.company"
+                               th:value="${contact?.getCompany()?.name?:''}"
+                               list="companyNameList" />
+                        <datalist id="companyNameList">
+                            <option th:each="lCompany: ${companies}"
+                                    th:value="${lCompany.name}"></option>
+                        </datalist>
+
+                        <label for="contact.mobile">Mobile Telephone</label>
+                        <input id="contact.mobile"
+                               th:value="${contact?.mobile?:''}"
+                               name="mobile"
+                               class="form-control"
+                               type="text"/>
+
+                        <label for="contact.email">Email</label>
+                        <input id="contact.email"
+                               name="contact.email"
+                               class="form-control"
+                               type="email"/>
+
+                        <div id="additional-contact-detail">
+                            <label for="contact.businessTelephone">Business Telephone</label>
+                            <input id="contact.businessTelephone"
+                                   name="contact.businessTelephone"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.facsimile">Facsimile</label>
+                            <input id="contact.facsimile"
+                                   name="contact.facsimile"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.homeTelephone">Home Telephone</label>
+                            <input id="contact.homeTelephone"
+                                   name="contact.homeTelephone"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.website">Website</label>
+                            <input id="contact.website"
+                                   name="contact.website"
+                                   class="form-control"
+                                   type="url"/>
+
+                            <label for="contact.address">Address</label>
+                            <input id="contact.address"
+                                   name="contact.address"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.city">City</label>
+                            <input id="contact.city"
+                                   name="contact.city"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.province">Province</label>
+                            <input id="contact.province"
+                                   name="contact.province"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.postalCode">Postal Code</label>
+                            <input id="contact.postalCode"
+                                   name="contact.postalCode"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.country">Country</label>
+                            <input id="contact.country"
+                                   name="contact.country"
+                                   class="form-control"
+                                   type="text"/>
+
+                            <label for="contact.notes">Notes</label>
+                            <textarea id="contact.notes"
+                                      name="contact.notes"
+                                      class="form-control"></textarea>
                         </div>
                     </div>
                     <br/>

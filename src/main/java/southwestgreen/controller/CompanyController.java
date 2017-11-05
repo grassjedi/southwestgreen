@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import southwestgreen.XEntityValidation;
 import southwestgreen.XNoSuchRecord;
 import southwestgreen.entity.Company;
+import southwestgreen.repository.CompanyContactRepository;
 import southwestgreen.repository.CompanyRepository;
+import southwestgreen.util.CursorResult;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -15,20 +18,21 @@ import java.util.Map;
 public class CompanyController {
 
     private CompanyRepository companyRepository;
+    private CompanyContactRepository companyContactRepository;
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String list(
+            Map<String, Object> model,
             @RequestParam(required = false) String cursor,
             @RequestParam(required = false) Integer maxResults) {
         if(maxResults == null) {
             maxResults = 200;
         }
-        companyRepository.list(cursor, maxResults);
+        CursorResult<List<Company>> result = companyRepository.list(cursor, maxResults);
+        model.put("companies", result.data);
+        model.put("cursor", result.cursor);
+        model.put("maxResults", maxResults);
         return "/app/customer";
-    }
-
-    public void setCompanyRepository(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
     }
 
     @RequestMapping(value = "/app/customer/create", method = RequestMethod.GET)
@@ -76,7 +80,6 @@ public class CompanyController {
             @PathVariable Long companyId
     ) throws XEntityValidation {
         Company company = new Company();
-        company.id = companyId;
         company.name = record.getFirst("name");
         company.email = record.getFirst("email");
         company.website = record.getFirst("website");
@@ -89,5 +92,13 @@ public class CompanyController {
         company.country = record.getFirst("country");
         companyRepository.createCompany(company);
         return "redirect: /app/customer/";
+    }
+
+    public void setCompanyRepository(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
+    public void setCompanyContactRepository(CompanyContactRepository companyContactRepository) {
+        this.companyContactRepository = companyContactRepository;
     }
 }
